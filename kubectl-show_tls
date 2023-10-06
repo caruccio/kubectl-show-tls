@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ROOT_DIR=${0%/*}
+\kubectl get secret -o json $@ | jq 'select(.type="kubernetes.io/tls") | .data|.[]|values|@base64d' | xargs printf "%b" | awk -f $ROOT_DIR/kubectl-show_tls.awk
